@@ -33,6 +33,8 @@ function bindForm(dialog) {
         $.ajax({
             url: this.action,
             type: this.method,
+            processData: false,
+            contentType: false,
             data: new FormData(this),
             success: function(result) {
                 if (result.success) {
@@ -74,7 +76,7 @@ function bindForm(dialog) {
                         icon: 'error',
                         title: 'Oops...',
                         text: error,
-                        footer: '<a href="mailto:helpdesk@carlisleit.com">Why do I have this issue?</a>'
+                        footer: ''
                     });
             },
             complete: function () {
