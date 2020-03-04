@@ -1,0 +1,58 @@
+﻿namespace ModalJS
+{
+    public enum ResponseType
+    {
+        Success,
+        Error
+    }
+
+    public enum AlertTypes
+    {
+        success,
+        error,
+        warning,
+        info,
+        question
+    }
+    public class ModalResponse
+    {
+        public ModalResponse(ResponseType response, bool _Redirect = true, string _Url = "", bool _Loading = true, bool _Notify = false, AlertTypes AlertType = AlertTypes.info, string Title = "", string Message = "", string Footer = "", string Position = "", int? Timer = null)
+        {
+            switch (response)
+            {
+                case ResponseType.Success:
+                    success = true;
+                    redirect = _Redirect;
+                    url = _Url;
+                    loading = _Loading;
+                    notify = _Notify;
+                    if (notify)
+                    {
+                        alertType = AlertType;
+                        title = Title;
+                        message = Message;
+                        footer = Footer;
+                        position = Position;
+                        timer = Timer;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        public bool success { get; set; }
+        public bool notify { get; set; }
+        public bool redirect { get; set; }
+        public bool loading { get; set; }
+        public string loading_script
+        { get; set; } = "KTUtil.addClass(KTUtil.get('body'), 'kt-page--loading');"; /* Value for loading script */
+        public string url { get; set; }
+        public AlertTypes alertType { get; set; }
+        public string icon => alertType.ToString() ?? "";
+        public string title { get; set; }
+        public string message { get; set; }
+        public string footer { get; set; }
+        public string position { get; set; }
+        public int? timer { get; set; }
+    }
+}
