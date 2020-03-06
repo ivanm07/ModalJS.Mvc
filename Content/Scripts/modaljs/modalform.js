@@ -2,11 +2,7 @@ $(function () {
     $.ajaxSetup({
         cache: false
     });
-<<<<<<< HEAD
-    
-=======
     modalformRender();
->>>>>>> modalform render
 });
 
 function modalformInitialize(bind_element) {
@@ -16,8 +12,6 @@ function modalformInitialize(bind_element) {
     if (bind_element !== null) {
         bindForm(bind_element);
     }
-<<<<<<< HEAD
-=======
 }
 
 function modalformRender() {
@@ -35,10 +29,7 @@ function modalformRender() {
         });
         return false;
     });
->>>>>>> modalform render
 }
-
-
 
 function bindForm(dialog) {
     $("form", dialog).off("submit").submit(function () {
