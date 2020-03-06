@@ -2,20 +2,7 @@ $(function() {
     $.ajaxSetup({
         cache: false
     });
-    $("a[data-modal='layout']").off("click").on("click", function(e) {
-        // hide dropdown if any (this is used wehen invoking modal from link in bootstrap dropdown )
-        //$(e.target).closest('.btn-group').children('.dropdown-toggle').dropdown('toggle');
-        $("#ModalStickUpContent").load(this.href, function() {
-            $("#ModalStickUp").modal({
-                /*backdrop: 'static',*/
-                margin_left: "auto",
-                margin_right: "auto",
-                keyboard: true
-            }, "show");
-            bindForm(this);
-        });
-        return false;
-    });
+    
 });
 
 function modalformInitialize(bind_element) {
@@ -26,6 +13,8 @@ function modalformInitialize(bind_element) {
         bindForm(bind_element);
     }
 }
+
+
 
 function bindForm(dialog) {
     $("form", dialog).off("submit").submit(function () {
