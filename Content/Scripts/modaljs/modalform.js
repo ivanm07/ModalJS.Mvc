@@ -1,8 +1,12 @@
-$(function() {
+$(function () {
     $.ajaxSetup({
         cache: false
     });
+<<<<<<< HEAD
     
+=======
+    modalformRender();
+>>>>>>> modalform render
 });
 
 function modalformInitialize(bind_element) {
@@ -12,6 +16,26 @@ function modalformInitialize(bind_element) {
     if (bind_element !== null) {
         bindForm(bind_element);
     }
+<<<<<<< HEAD
+=======
+}
+
+function modalformRender() {
+    $("a[data-modal='layout']").off("click").on("click", function (e) {
+        // hide dropdown if any (this is used wehen invoking modal from link in bootstrap dropdown )
+        //$(e.target).closest('.btn-group').children('.dropdown-toggle').dropdown('toggle');
+        $("#ModalStickUpContent").load(this.href, function () {
+            $("#ModalStickUp").modal({
+                /*backdrop: 'static',*/
+                margin_left: "auto",
+                margin_right: "auto",
+                keyboard: true
+            }, "show");
+            bindForm(this);
+        });
+        return false;
+    });
+>>>>>>> modalform render
 }
 
 
@@ -22,17 +46,14 @@ function bindForm(dialog) {
         $.ajax({
             url: this.action,
             type: this.method,
-            processData: false,
-            contentType: false,
-            data: new FormData(this),
-            success: function(result) {
+            data: $(this).serialize(),
+            success: function (result) {
                 if (result.success) {
                     if (result.loading) {
                         eval(result.loading_script);
                     }
                     $("#ModalStickUp").modal("hide");
                     if (result.notify) {
-                        //notify(result.style, result.title, result.message, result.position, result.time, result.type, result.icono, result.where);
                         Swal.fire(
                             {
                                 icon: result.icon,
@@ -58,14 +79,14 @@ function bindForm(dialog) {
                     bindForm(dialog);
                 }
             },
-            error: function(jqXHR, status, error) {
+            error: function (jqXHR, status, error) {
                 console.log(jqXHR, status, error);
                 Swal.fire(
                     {
                         icon: 'error',
                         title: 'Oops...',
                         text: error,
-                        footer: ''
+                        footer: '<a href="mailto:helpdesk@carlisleit.com">Why do I have this issue?</a>'
                     });
             },
             complete: function () {
