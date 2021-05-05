@@ -2,7 +2,13 @@ $(function () {
     $.ajaxSetup({
         cache: false
     });
-    modalformRender();
+    try {
+        modalformRender();    
+    }
+    catch (e){
+        console.log(e);
+        $("#ModalStickUpContent").html(null);
+    }
 });
 
 function modalformInitialize(bind_element) {
