@@ -30,56 +30,17 @@ function modalformRender() {
         return false;
     });
 }
-
+var _dialog;
 function bindForm(dialog) {
+    _dialog = dialog;
     $("form", dialog).off("submit").submit(function () {
         $('#ModalStickUpContent > form :input[type="submit"]').prop('disabled', true);
         $.ajax({
             url: this.action,
             type: this.method,
             data: $(this).serialize(),
-            success: function (result) {
-                if (result.success) {
-                    if (result.loading) {
-                        eval(result.loading_script);
-                    }
-                    $("#ModalStickUp").modal("hide");
-                    if (result.notify) {
-                        Swal.fire(
-                            {
-                                icon: result.icon,
-                                title: result.title,
-                                text: result.message,
-                                footer: result.footer,
-                                position: result.position,
-                                timer: result.time,
-                            });
-                    }
-                    if (result.url !== null) {
-                        $(result.target).load(result.url, function () {
-                            //Algún evento.
-                        });
-                    }
-                    if (result.redirect) {
-                        setTimeout(function () {
-                            window.location = result.url;
-                        }, result.time);
-                    }
-                } else {
-                    $("#ModalStickUpContent").html(result);
-                    bindForm(dialog);
-                }
-            },
-            error: function (jqXHR, status, error) {
-                console.log(jqXHR, status, error);
-                Swal.fire(
-                    {
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: error,
-                        footer: '<a href="mailto:helpdesk@carlisleit.com">Why do I have this issue?</a>'
-                    });
-            },
+            success: modalformSuccess,
+            error: modalformError,
             complete: function () {
                 $('#ModalStickUpContent > form :input[type="submit"]').prop('disabled', false);
             }
@@ -87,4 +48,46 @@ function bindForm(dialog) {
         modalformInitialize();
         return false;
     });
+}
+
+function modalformSuccess(result) {
+    if (result.loading) {
+        eval(result.loading_script);
+    }
+    $("#ModalStickUp").modal("hide");
+    if (result.notify) {
+        swal(
+            {
+                icon: result.icon,
+                title: result.title,
+                text: result.message,
+                footer: result.footer,
+                position: result.position,
+                timer: result.time,
+            });
+    }
+    if (result.url !== null) {
+        $(result.target).load(result.url, function () {
+            //Algún evento.
+        });
+    }
+    if (result.redirect) {
+        setTimeout(function () {
+            window.location = result.url;
+        }, result.time);
+    }
+    $("#ModalStickUpContent").html(result);
+    if (_dialog != null) {
+        bindForm(_dialog);
+    }
+}
+function modalformError(jqXHR, status, error) {
+    console.log(jqXHR, status, error);
+    swal(
+        {
+            icon: 'error',
+            title: 'Oops...',
+            text: error,
+            footer: '<a href="mailto:support@domain.com">Why do I have this issue?</a>'
+        });
 }

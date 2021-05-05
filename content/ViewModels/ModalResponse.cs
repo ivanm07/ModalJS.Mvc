@@ -22,22 +22,25 @@
             {
                 case ResponseType.Success:
                     success = true;
-                    redirect = _Redirect;
-                    url = _Url;
-                    loading = _Loading;
-                    notify = _Notify;
-                    if (notify)
-                    {
-                        alertType = AlertType;
-                        title = Title;
-                        message = Message;
-                        footer = Footer;
-                        position = Position;
-                        timer = Timer;
-                    }
+                    break;
+                case ResponseType.Error:
+                    success = false;
                     break;
                 default:
                     break;
+            }
+            redirect = _Redirect;
+            url = _Url;
+            loading = _Loading;
+            notify = _Notify;
+            if (notify)
+            {
+                alertType = AlertType;
+                title = Title;
+                message = Message;
+                footer = Footer;
+                position = Position;
+                timer = Timer;
             }
         }
         public bool success { get; set; }
@@ -45,7 +48,7 @@
         public bool redirect { get; set; }
         public bool loading { get; set; }
         public string loading_script
-        { get; set; } = "KTUtil.addClass(KTUtil.get('body'), 'kt-page--loading');"; /* Value for loading script */
+        { get; set; } = ""; /* Value for loading script */
         public string url { get; set; }
         public AlertTypes alertType { get; set; }
         public string icon => alertType.ToString() ?? "";
