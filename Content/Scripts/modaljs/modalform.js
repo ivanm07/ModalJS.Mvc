@@ -30,14 +30,20 @@ function modalformRender() {
         });
         // hide dropdown if any (this is used wehen invoking modal from link in bootstrap dropdown )
         //$(e.target).closest('.btn-group').children('.dropdown-toggle').dropdown('toggle');
-        $("#ModalStickUpContent").load(this.href, function () {
+        $("#ModalStickUpContent").load(this.href, function (response, status, xhr) {
             loading.close();
+            console.log(status, xhr);
             $("#ModalStickUp").modal({
                 /*backdrop: 'static',*/
                 margin_left: "auto",
                 margin_right: "auto",
                 keyboard: true
             }, "show");
+            if (status == "error") {
+                _dialog = null;
+                $("#ModalStickUpContent").html(response);
+                return false;
+            }
             bindForm(this);
         });
         return false;
