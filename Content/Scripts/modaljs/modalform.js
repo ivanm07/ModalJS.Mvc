@@ -3,9 +3,9 @@ $(function () {
         cache: false
     });
     try {
-        modalformRender();    
+        modalformRender();
     }
-    catch (e){
+    catch (e) {
         console.log(e);
         $("#ModalStickUpContent").html(null);
     }
@@ -22,9 +22,16 @@ function modalformInitialize(bind_element) {
 
 function modalformRender() {
     $("a[data-modal='layout']").off("click").on("click", function (e) {
+        var loading = swal.fire({
+            html: "<div class='d-flex justify-content-center'><div class='spinner spinner-primary' style='height:10rem;'></div></div>",
+            //imageUrl: "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif",
+            showConfirmButton: false,
+            allowOutsideClick: false
+        });
         // hide dropdown if any (this is used wehen invoking modal from link in bootstrap dropdown )
         //$(e.target).closest('.btn-group').children('.dropdown-toggle').dropdown('toggle');
         $("#ModalStickUpContent").load(this.href, function () {
+            loading.close();
             $("#ModalStickUp").modal({
                 /*backdrop: 'static',*/
                 margin_left: "auto",
@@ -38,15 +45,30 @@ function modalformRender() {
 }
 var _dialog;
 function bindForm(dialog) {
-    _dialog = dialog;
-    $("form", dialog).off("submit").submit(function () {
+    if (dialog != null) {
+        _dialog = dialog;
+    }
+    $("form", dialog).off("submit").submit(function (e) {
+        //e.preventDefault(); // stop the standard form submission
         $('#ModalStickUpContent > form :input[type="submit"]').prop('disabled', true);
+        var formData = new FormData();
+        $(this).serializeArray().forEach(function (item, i, array) {
+            formData.append(item.name, item.value);
+        });
+        $('input[type="file"]').each(function (i, el) {
+            for (i = 0; i < el.files.length; i++) {
+                //Appending each file to FormData object
+                formData.append(el.files[i].name, el.files[i]);
+            }
+        });
         $.ajax({
             url: this.action,
             type: this.method,
-            data: $(this).serialize(),
+            data: formData,
             success: modalformSuccess,
             error: modalformError,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,   // tell jQuery not to set contentType
             complete: function () {
                 $('#ModalStickUpContent > form :input[type="submit"]').prop('disabled', false);
             }
@@ -60,9 +82,9 @@ function modalformSuccess(result) {
     if (result.loading) {
         eval(result.loading_script);
     }
-    $("#ModalStickUp").modal("hide");
+    //$("#ModalStickUp").modal("hide");
     if (result.notify) {
-        swal(
+        Swal.fire(
             {
                 icon: result.icon,
                 title: result.title,
@@ -72,7 +94,7 @@ function modalformSuccess(result) {
                 timer: result.time,
             });
     }
-    if (result.url !== null) {
+    if (result.url !== undefined) {
         $(result.target).load(result.url, function () {
             //Algún evento.
         });
@@ -89,7 +111,7 @@ function modalformSuccess(result) {
 }
 function modalformError(jqXHR, status, error) {
     console.log(jqXHR, status, error);
-    swal(
+    Swal.fire(
         {
             icon: 'error',
             title: 'Oops...',
