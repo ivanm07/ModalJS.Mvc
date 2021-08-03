@@ -64,7 +64,7 @@ function bindForm(dialog) {
         $('input[type="file"]').each(function (i, el) {
             for (i = 0; i < el.files.length; i++) {
                 //Appending each file to FormData object
-                formData.append(el.files[i].name, el.files[i]);
+                formData.append(el.name + "[" + i + "]", el.files[i]);
             }
         });
         $.ajax({
