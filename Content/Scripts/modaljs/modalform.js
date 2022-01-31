@@ -110,7 +110,9 @@ function modalformSuccess(result) {
             window.location = result.url;
         }, result.time);
     }
-    $("#ModalStickUpContent").html(result);
+    if (result.success) {
+        $("#ModalStickUpContent").html(result);
+    }
     if (_dialog != null) {
         bindForm(_dialog);
     }
