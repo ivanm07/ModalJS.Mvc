@@ -100,7 +100,7 @@ function modalformSuccess(result) {
                 timer: result.time,
             });
     }
-    if (result.url !== undefined) {
+    if (result.url !== "") {
         $(result.target).load(result.url, function () {
             //Algún evento.
         });
