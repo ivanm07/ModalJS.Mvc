@@ -85,38 +85,50 @@ function bindForm(dialog) {
 }
 
 function modalformSuccess(result) {
-    if (result.loading) {
-        eval(result.loading_script);
-    }
-    //$("#ModalStickUp").modal("hide");
-    if (result.notify) {
-        Swal.fire(
-            {
-                icon: result.icon,
-                title: result.title,
-                text: result.message,
-                footer: result.footer,
-                position: result.position,
-                timer: result.time,
+    try {
+        if (typeof result !== 'object' && result !== null) {
+            throw result;
+        }
+        if (result.loading) {
+            eval(result.loading_script);
+        }
+        //$("#ModalStickUp").modal("hide");
+        if (result.notify) {
+            Swal.fire(
+                {
+                    icon: result.icon,
+                    title: result.title,
+                    text: result.message,
+                    footer: result.footer,
+                    position: result.position,
+                    timer: result.time,
+                });
+        }
+        if (result.url !== "") {
+            $(result.target).load(result.url, function () {
+                //Algún evento.
             });
-    }
-    if (result.url !== "") {
-        $(result.target).load(result.url, function () {
-            //Algún evento.
-        });
-    }
-    if (result.redirect) {
-        setTimeout(function () {
-            window.location = result.url;
-        }, result.time);
-    }
-    if (result.success) {
+        }
+        if (result.redirect) {
+            setTimeout(function () {
+                window.location = result.url;
+            }, result.time);
+        }
+        if (result.success) {
+            $("#ModalStickUpContent").html(result);
+        }
+        if (_dialog != null) {
+            bindForm(_dialog);
+        }
+    } catch (e) {
+        console.log(e);
         $("#ModalStickUpContent").html(result);
-    }
-    if (_dialog != null) {
-        bindForm(_dialog);
+        if (_dialog != null) {
+            bindForm(_dialog);
+        }
     }
 }
+
 function modalformError(jqXHR, status, error) {
     console.log(jqXHR, status, error);
     Swal.fire(
