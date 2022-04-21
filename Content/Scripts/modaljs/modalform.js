@@ -32,7 +32,7 @@ function modalformRender() {
         //$(e.target).closest('.btn-group').children('.dropdown-toggle').dropdown('toggle');
         $("#ModalStickUpContent").load(this.href, function (response, status, xhr) {
             loading.close();
-            console.log(status, xhr);
+            //console.log(status, xhr);
             $("#ModalStickUp").modal({
                 /*backdrop: 'static',*/
                 margin_left: "auto",
@@ -54,9 +54,9 @@ function bindForm(dialog) {
     if (dialog != null) {
         _dialog = dialog;
     }
-    $("form", dialog).off("submit").submit(function (e) {
+    $("#ModalStickUpContent:has(form)", dialog).off("submit").submit(function (e) {
         //e.preventDefault(); // stop the standard form submission
-        $('#ModalStickUpContent > form :input[type="submit"]').prop('disabled', true);
+        $(this).find('input[type="submit"]').prop('disabled', true);
         var formData = new FormData();
         $(this).serializeArray().forEach(function (item, i, array) {
             formData.append(item.name, item.value);
