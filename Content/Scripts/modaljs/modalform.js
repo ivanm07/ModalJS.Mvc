@@ -54,8 +54,8 @@ function bindForm(dialog) {
     if (dialog != null) {
         _dialog = dialog;
     }
-    $("#ModalStickUpContent:has(form)", dialog).off("submit").submit(function (e) {
-        //e.preventDefault(); // stop the standard form submission
+    $("form", dialog).off("submit").submit(function (e) {
+        e.preventDefault(); // stop the standard form submission
         $(this).find('[type="submit"]').prop('disabled', true);
         var formData = new FormData();
         $(this).serializeArray().forEach(function (item, i, array) {
@@ -136,6 +136,6 @@ function modalformError(jqXHR, status, error) {
             icon: 'error',
             title: 'Oops...',
             text: error,
-            footer: '<a href="mailto:support@domain.com">Why do I have this issue?</a>'
+            footer: '<a href="mailto:helpdesk@carlisleit.com">Why do I have this issue?</a>'
         });
 }
