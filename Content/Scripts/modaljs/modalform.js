@@ -56,7 +56,7 @@ function bindForm(dialog) {
     }
     $("#ModalStickUpContent:has(form)", dialog).off("submit").submit(function (e) {
         //e.preventDefault(); // stop the standard form submission
-        $(this).find('input[type="submit"]').prop('disabled', true);
+        $(this).find('[type="submit"]').prop('disabled', true);
         var formData = new FormData();
         $(this).serializeArray().forEach(function (item, i, array) {
             formData.append(item.name, item.value);
