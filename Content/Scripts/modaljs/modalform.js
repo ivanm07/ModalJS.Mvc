@@ -92,7 +92,6 @@ function modalformSuccess(result) {
         if (result.loading) {
             eval(result.loading_script);
         }
-        //$("#ModalStickUp").modal("hide");
         if (result.notify) {
             Swal.fire(
                 {
@@ -103,6 +102,7 @@ function modalformSuccess(result) {
                     position: result.position,
                     timer: result.time,
                 });
+                $("#ModalStickUp").modal("hide");
         }
         if (result.url !== "") {
             $(result.target).load(result.url, function () {
