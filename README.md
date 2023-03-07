@@ -51,7 +51,7 @@ Use SweetAlert plugin 2.1.2+ -> https://sweetalert.js.org/
 [HttpGet]
 public ActionResult Create()
 {
-  return View();
+  return PartialView();
 }
 </pre>
 
