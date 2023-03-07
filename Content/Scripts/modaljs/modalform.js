@@ -101,8 +101,15 @@ function modalformSuccess(result) {
                     footer: result.footer,
                     position: result.position,
                     timer: result.time,
+                })
+                .then(function (){
+                    if(result.redirect)
+                    {
+                        window.location = result.url;        
+                    }
                 });
                 $("#ModalStickUp").modal("hide");
+                return;
         }
         if (result.url !== "") {
             $(result.target).load(result.url, function () {
