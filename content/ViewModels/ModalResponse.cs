@@ -16,7 +16,7 @@
     }
     public class ModalResponse
     {
-        public ModalResponse(ResponseType response, bool _Redirect = true, string _Url = "", bool _Loading = true, bool _Notify = false, AlertTypes AlertType = AlertTypes.info, string Title = "", string Message = "", string Footer = "", string Position = "", int? Timer = null)
+        public ModalResponse(ResponseType response, bool _Redirect = true, string _Url = "", bool _Loading = true, bool _Notify = false, AlertTypes AlertType = AlertTypes.info, string Title = "", string Message = "", string Footer = "", string Position = "", int? Timer = null, bool _Hide = true, string _Render = "")
         {
             switch (response)
             {
@@ -33,6 +33,7 @@
             url = _Url;
             loading = _Loading;
             notify = _Notify;
+            render = _Render;
             if (notify)
             {
                 alertType = AlertType;
@@ -41,10 +42,12 @@
                 footer = Footer;
                 position = Position;
                 timer = Timer;
+                hide = _Hide;
             }
         }
         public bool success { get; set; }
         public bool notify { get; set; }
+        public bool hide { get; set; }
         public bool redirect { get; set; }
         public bool loading { get; set; }
         public string loading_script
@@ -57,5 +60,6 @@
         public string footer { get; set; }
         public string position { get; set; }
         public int? timer { get; set; }
+        public string render { get; set; }
     }
 }

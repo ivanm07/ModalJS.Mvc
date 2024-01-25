@@ -70,7 +70,7 @@ function bindForm(dialog) {
         $.ajax({
             url: this.action,
             type: this.method,
-            data: formData,
+            data: formData, // consider use only on POST methods
             success: modalformSuccess,
             error: modalformError,
             processData: false,  // tell jQuery not to process the data
@@ -108,7 +108,9 @@ function modalformSuccess(result) {
                         window.location = result.url;        
                     }
                 });
-                $("#ModalStickUp").modal("hide");
+                if(result.hide){
+                    $("#ModalStickUp").modal("hide");
+                }
                 return;
         }
         if (result.url !== "") {
@@ -122,7 +124,7 @@ function modalformSuccess(result) {
             }, result.time);
         }
         if (result.success) {
-            $("#ModalStickUpContent").html(result);
+            $("#ModalStickUpContent").html(result.render);
         }
         if (_dialog != null) {
             bindForm(_dialog);
@@ -143,6 +145,6 @@ function modalformError(jqXHR, status, error) {
             icon: 'error',
             title: 'Oops...',
             text: error,
-            footer: '<a href="mailto:helpdesk@carlisleit.com">Why do I have this issue?</a>'
+            footer: '<a href="mailto:helpdesk@domain.com">Why do I have this issue?</a>'
         });
 }
